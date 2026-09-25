@@ -1,0 +1,20 @@
+<div class="container">
+  <header>
+    <h1>{{ title }}</h1>
+    <p>Create your professional CV</p>
+  </header>
+
+  <main>
+    <section class="welcome">
+      <h2>Welcome to {{ title }}</h2>
+      <p>Get started by creating a new CV or uploading an existing one.</p>
+      <button (click)="onCreateCV()" class="btn btn-primary">Create New CV</button>
+      <button (click)="onUploadCV()" class="btn btn-secondary">Upload CV</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 {{ title }}. All rights reserved.</p>
+  </footer>
+</div>
+
