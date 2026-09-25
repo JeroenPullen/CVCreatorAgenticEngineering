@@ -1,5 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +6,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'CVCreator';
+  apiKey = environment.apiKey;
   constructor(private readonly http: HttpClient) {}
 
   @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
