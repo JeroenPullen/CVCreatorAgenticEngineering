@@ -1,20 +1,5 @@
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-body {
-  margin: 0;
-  padding: 0;
-}
+/* Global reset and workspace surface */
+*{box-sizing:border-box}html{scroll-behavior:smooth}html,body{min-height:100%;margin:0}body{font-family:'Libre Franklin',Arial,sans-serif;background:#fffbf5;color:#3e3e3e}button,textarea{font-family:inherit}button{cursor:pointer}::selection{background:#e4dcd3;color:#092b13}
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
@@ -33,4 +18,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-

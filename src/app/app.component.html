@@ -1,20 +1,54 @@
-<div class="container">
-  <header>
-    <h1>{{ title }}</h1>
-    <p>Create your professional CV</p>
-  </header>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#top" aria-label="Harvest CV Studio home">
+      <span class="brand-name">harvest<span class="brand-dot">.</span></span>
+    </a>
+    <div class="sidebar-label">WORKSPACE</div>
+    <nav aria-label="Main navigation">
+      <a class="nav-link selected" href="#top"><span class="nav-icon">▦</span> CV Studio <span class="nav-arrow">↗</span></a>
+    </nav>
+    <div class="sidebar-label process-label">YOUR WORKFLOW</div>
+    <nav class="workflow-nav" aria-label="CV creation steps">
+      <button type="button" [class.current]="activeStep === 1" (click)="goToStep(1)"><span class="step-index" [class.done]="!!selectedFile">{{ selectedFile ? '✓' : '01' }}</span> Source document</button>
+      <button type="button" [class.current]="activeStep === 2" (click)="goToStep(2)"><span class="step-index" [class.done]="answeredCount === 3">{{ answeredCount === 3 ? '✓' : '02' }}</span> Quick questions</button>
+      <button type="button" [class.current]="activeStep === 3" (click)="goToStep(3)"><span class="step-index" [class.done]="!!interviewNotes.trim()">{{ interviewNotes.trim() ? '✓' : '03' }}</span> Interview notes</button>
+      <button type="button" [class.current]="activeStep === 4" (click)="goToStep(4)"><span class="step-index">04</span> CV preview</button>
+    </nav>
+    <div class="sidebar-bottom"><span class="sidebar-bottom-icon">✳</span><div><strong>Made for potential.</strong><small>Built for the next step.</small></div></div>
+  </aside>
 
-  <main>
-    <section class="welcome">
-      <h2>Welcome to {{ title }}</h2>
-      <p>Get started by creating a new CV or uploading an existing one.</p>
-      <button (click)="onCreateCV()" class="btn btn-primary">Create New CV</button>
-      <button (click)="onUploadCV()" class="btn btn-secondary">Upload CV</button>
-    </section>
-  </main>
+  <div class="page" id="top">
+    <header class="topbar"><span class="breadcrumb">Workspace <span>/</span> <strong>CV Studio</strong></span><span class="topbar-right"><span class="status-dot"></span> Prototype workspace <span class="avatar">H</span></span></header>
+    <main class="main-content">
+      <div class="eyebrow"><span class="eyebrow-line"></span> HARVEST CV STUDIO <span class="eyebrow-line"></span></div>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy"><span class="pill"><span class="pill-dot"></span> NEW CV WORKFLOW</span><h1 id="page-title">Great talent deserves<br><em>a great introduction.</em></h1><p>Bring together a Harvester’s experience, ambitions and story in one place — the starting point for a CV that makes the right first impression.</p><button class="text-link" type="button" (click)="goToStep(1)">Let’s get started <span aria-hidden="true">→</span></button></div>
+        <div class="hero-art" aria-hidden="true"><div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div><div class="art-star">✳</div><div class="art-card art-card-back"></div><div class="art-card art-card-front"><div class="art-card-top"><span class="art-mini-mark">✳</span><span>HARVEST / TALENT</span></div><div class="art-avatar"></div><div class="art-line long"></div><div class="art-line mid"></div><div class="art-divider"></div><div class="art-line short"></div><div class="art-line mid"></div><div class="art-line long light"></div></div><div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✳</div></div>
+      </section>
 
-  <footer>
-    <p>&copy; 2026 {{ title }}. All rights reserved.</p>
-  </footer>
+      <div class="section-heading"><div><span class="section-kicker">THE PROCESS</span><h2>Everything we need, in one place.</h2><p>Three simple inputs. One clear direction.</p></div><div class="progress"><span>{{ completedCount }} of 3 inputs added</span><div class="progress-track"><div class="progress-fill" [style.width.%]="completedCount * 100 / 3"></div></div></div></div>
+
+      <div class="workspace-grid"><div class="input-column">
+        <section class="input-card" id="step-1" aria-labelledby="upload-title"><div class="card-heading"><span class="number-badge">01</span><div><span class="card-kicker">START WITH WHAT YOU HAVE</span><h3 id="upload-title">Upload an existing CV</h3><p>Add the Harvester’s current CV as a starting point.</p></div><span class="card-status" [class.complete]="selectedFile">{{ selectedFile ? 'Added' : 'Not added' }}</span></div>
+          <input #fileInput class="visually-hidden" type="file" accept=".pdf,application/pdf" aria-label="Select CV PDF" (change)="onFileSelected($event)">
+          <div class="dropzone" [class.dragging]="isDragging" (dragover)="onDragOver($event)" (dragleave)="isDragging = false" (drop)="onDrop($event)">
+            <div class="upload-icon" aria-hidden="true">↑</div><ng-container *ngIf="!selectedFile; else uploaded"><strong>Drop a PDF here, or choose a file</strong><span>PDF format only · Your file stays in this browser during this prototype.</span><button type="button" class="outline-button" (click)="openFilePicker()">Browse files <span aria-hidden="true">↗</span></button></ng-container>
+            <ng-template #uploaded><strong class="file-name">{{ selectedFile?.name }}</strong><span>PDF selected · Ready as a source document</span><div class="file-actions"><button type="button" class="outline-button" (click)="openFilePicker()">Replace file</button><button type="button" class="plain-button" (click)="removeFile()">Remove</button></div></ng-template>
+          </div>
+        </section>
+
+        <section class="input-card" id="step-2" aria-labelledby="questions-title"><div class="card-heading"><span class="number-badge">02</span><div><span class="card-kicker">THE PERSON BEHIND THE PROFILE</span><h3 id="questions-title">A few quick questions</h3><p>A little context helps tell a more complete story.</p></div><span class="card-status" [class.complete]="answeredCount === 3">{{ answeredCount }}/3 answered</span></div>
+          <div class="fields"><div class="field"><label for="strengths"><span class="field-number">01 /</span> What are this Harvester’s key strengths?</label><textarea id="strengths" rows="2" [(ngModel)]="answers.strengths" placeholder="e.g. Analytical thinking, connecting people, taking initiative..."></textarea></div><div class="field"><label for="experience"><span class="field-number">02 /</span> What experience or projects stand out?</label><textarea id="experience" rows="2" [(ngModel)]="answers.experience" placeholder="e.g. Relevant roles, projects, technologies or achievements..."></textarea></div><div class="field"><label for="ambition"><span class="field-number">03 /</span> What kind of role or growth are they looking for?</label><textarea id="ambition" rows="2" [(ngModel)]="answers.ambition" placeholder="e.g. Their goals, ideal environment or next challenge..."></textarea></div></div>
+        </section>
+
+        <section class="input-card" id="step-3" aria-labelledby="notes-title"><div class="card-heading"><span class="number-badge">03</span><div><span class="card-kicker">THE CONVERSATION MATTERS</span><h3 id="notes-title">Interview notes</h3><p>Capture the details that don’t fit on a standard CV.</p></div><span class="card-status" [class.complete]="!!interviewNotes.trim()">{{ interviewNotes.trim() ? 'Added' : 'Not added' }}</span></div><label class="visually-hidden" for="notes">Interview notes with the Harvester</label><textarea id="notes" class="notes-input" rows="6" [(ngModel)]="interviewNotes" placeholder="What stood out in your conversation? Think about their personality, motivation, communication style, strengths and aspirations..."></textarea><div class="helper-text"><span>✳</span> Tip: Focus on concrete examples and what makes this person unique.</div></section>
+      </div>
+
+      <aside class="preview-column" id="step-4" aria-label="CV output preview"><div class="preview-panel"><div class="preview-heading"><span class="section-kicker">THE OUTCOME</span><span class="preview-tag">PREVIEW</span></div><h3>A CV worth<br>opening doors for.</h3><p>Everything in place? The next step will be a polished, client-ready Harvest CV.</p><div class="paper-wrap"><div class="paper"><div class="paper-header"><span class="paper-logo">✳ harvest<span>.</span></span><span class="paper-label">CURRICULUM VITAE</span></div><div class="paper-content"><div class="paper-profile"><div class="paper-photo"></div><div class="paper-profile-lines"><i></i><i></i><i></i></div></div><div class="paper-rule"></div><span class="paper-section-title">PROFILE</span><div class="paper-lines"><i></i><i></i><i></i></div><span class="paper-section-title">EXPERIENCE</span><div class="paper-lines"><i></i><i></i><i></i></div><span class="paper-section-title">SKILLS & EXPERTISE</span><div class="paper-chips"><i></i><i></i><i></i></div></div><div class="paper-footer">GROWING PEOPLE. GROWING BUSINESS.</div></div><span class="paper-stamp">YOUR FUTURE CV</span></div><div class="preview-bottom"><div class="preview-format"><span class="pdf-icon">PDF</span><span><strong>Harvest CV</strong><small>Client-ready PDF · coming soon</small></span></div><button class="primary-button" type="button" (click)="generateCv()">Generate Harvest CV <span aria-hidden="true">↗</span></button><span class="prototype-note">Prototype only — no PDF is generated yet.</span></div></div><div class="note-panel"><span>✳</span><div><strong>More than a résumé.</strong><p>A thoughtful introduction to the person behind the potential.</p></div></div></aside>
+      </div>
+      <footer class="footer"><span>© 2026 Harvest · CV Studio</span><span>Growing people. Growing business.</span></footer>
+    </main>
+  </div>
 </div>
 
+<div *ngIf="modalTitle" class="modal-backdrop" (click)="closePopup()"><div class="modal" role="alertdialog" aria-modal="true" [attr.aria-label]="modalTitle" (click)="$event.stopPropagation()"><button type="button" class="modal-close" aria-label="Close popup" (click)="closePopup()">×</button><div class="modal-symbol">✳</div><h2>{{ modalTitle }}</h2><p>{{ modalMessage }}</p><button type="button" class="primary-button" (click)="closePopup()">Got it <span aria-hidden="true">↗</span></button></div></div>
