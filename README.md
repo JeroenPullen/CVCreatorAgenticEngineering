@@ -1,6 +1,19 @@
-# CVCreator
+# Harvest CV Studio
 
-A professional CV creation tool built with Angular, TypeScript, HTML, and CSS.
+AI-assisted CV drafting from an existing text-based PDF, three questionnaire answers and interview notes. A person must review and correct every draft before exporting a Harvest-styled PDF.
+
+## Run locally
+
+1. Install Node.js 20+ and run `npm install`.
+2. Set `OPENROUTER_API_KEY` as a server environment variable, or copy `.env.example` to `.env` and replace the example value. Optionally configure `OPENROUTER_MODEL` with a model that supports JSON output.
+3. Run `npm start` and open http://localhost:4200. This runs Angular (4200) and the API (3000) together; Angular proxies `/api` to the server.
+4. Upload a text-based PDF (5 MB max), answer the three questions, add interview notes, click **Generate Harvest CV**, check/edit the draft, then click **Download reviewed PDF**.
+
+`npm run build` builds only the Angular frontend. Production deployment also requires running `npm run server` behind a reverse proxy forwarding `/api` to the server. **Do not expose the API publicly without authentication, authorization, rate limiting, and a data-retention/privacy review.** An exposed generation endpoint can exhaust OpenRouter credits. The API binds to localhost for development.
+
+## Privacy and accuracy
+
+The PDF is parsed on the server; only extracted text (up to 30,000 characters), questionnaire answers and notes are sent to OpenRouter/model providers on generation. PDF files, answers and drafts are held in memory and are not saved in this app. Do not upload personal data without permission and an approved processing agreement. The API key stays server-side; `.env` is git-ignored. Scanned PDFs require OCR and are currently rejected. OpenRouter output is not fact-checked automatically: confirm all claims and remove sensitive information before sharing. The illustrative preview is not the actual rendered PDF.
 
 ## Project Structure
 
@@ -116,5 +129,3 @@ The build artifacts will be stored in the `dist/` directory.
 ## License
 
 MIT
-
-
