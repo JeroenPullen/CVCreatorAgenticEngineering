@@ -44,6 +44,8 @@ Thumbs.db
 # Environment files (often contain secrets) - keep example files in repo
 /src/environments/*.ts
 !src/environments/environment.example.ts
+!src/environments/environment.ts
+!src/environments/environment.prod.ts
 
 # Environment variable files
 .env
@@ -58,4 +60,3 @@ Thumbs.db
 
 # Lockfiles (do NOT ignore package-lock.json by default; uncomment if you prefer to ignore)
 # package-lock.json
-

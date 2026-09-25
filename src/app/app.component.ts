@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CVCreator';
+  apiKey = environment.apiKey;
 
   onCreateCV(): void {
     alert('Create New CV button clicked!');
@@ -20,4 +22,3 @@ export class AppComponent {
     // TODO: Implement CV upload functionality
   }
 }
-
