@@ -31,6 +31,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Inject API key into production environment
+        env:
+          NPM_API_KEY: ${{ secrets.NPM_API_KEY }}
+        run: |
+          node -e "const fs=require('fs'); const key=process.env.NPM_API_KEY || ''; fs.writeFileSync('src/environments/environment.prod.ts', `export const environment = {\n  production: true,\n  apiKey: ${JSON.stringify(key)}\n};\n`);"
+
       - name: Build Angular app
         run: npm run build -- --base-href="/${{ github.event.repository.name }}/"
 
